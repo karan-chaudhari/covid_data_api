@@ -1,0 +1,97 @@
+{% extends "user/index.html" %}
+{% load static %}
+{% block start %}
+<div class="content-section col-md-8 col-md-offset-2">
+	<center>
+		<form style="margin: 4%; padding:10%; border-radius:1%;" action="/fetch/" method="post">
+			<h2>Search Data</h2>
+			{% csrf_token %}
+			<label>Country</label>
+			<select class="custom-select form-control" name="country_dropdown" required>
+				<option>Choose Country</option>
+				{% for country in countryData %}
+				<option value="{{country}}">{{country}}</option>
+				{% endfor %}
+			</select>
+			<br>
+			<label>Date Range</label>
+			<select class="custom-select form-control" name="date_dropdown" required>
+				<option value="1">Last 15 Days</option>
+			</select>
+
+			<br>
+			<div>
+				<div>
+					<div></div>
+					<button class="btn btn-primary">
+						Search
+					</button>
+				</div>
+			</div>
+		</form>
+	</center>
+</div>
+{% if graph %}
+<div class="content-section col-md-8 col-md-offset-2">
+	<center>
+		<form style="margin: 4%; padding:10%; border-radius:1%;" action="/send_mail/" method="post">
+			{% csrf_token %}
+			<label>Send Below Charts On Mail</label>
+			<input type="email" name="receiver_mail" class="form-control" placeholder="Enter email">
+
+			<br>
+			<div>
+				<div>
+					<div></div>
+					<button class="btn btn-primary">
+						Send Mail
+					</button>
+				</div>
+			</div>
+		</form>
+	</center>
+</div>
+
+<div>
+	<center>
+		<img src="{% static '/graph/fig1.png' %}">
+		<img src="{% static '/graph/fig2.png' %}">
+	</center>
+</div>
+{% endif %}
+{% if dataTable %}
+<div>
+	<table id="" class="table table-bordered table-striped">
+		<thead>
+			<tr>
+				<th>Updated At</th>
+				<th>Date</th>
+				<th>Deaths</th>
+				<th>Confirmed</th>
+				<th>Recovered</th>
+				<th>New Confirmed</th>
+				<th>New Recovered</th>
+				<th>New Deaths</th>
+				<th>Active</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for i in jsonData %}
+			<tr>
+				<td>{{i.updated_at}}</td>
+				<td>{{i.date}}</td>
+				<td>{{i.deaths}}</td>
+				<td>{{i.confirmed}}</td>
+				<td>{{i.recovered}}</td>
+				<td>{{i.new_confirmed}}</td>
+				<td>{{i.new_recovered}}</td>
+				<td>{{i.new_deaths}}</td>
+				<td>{{i.active}}</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	<p>{{i.updated_at}}</p>
+</div>
+{% endif %}
+{% endblock start %}

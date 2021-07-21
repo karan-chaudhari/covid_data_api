@@ -1,0 +1,28 @@
+{% extends "user/index.html" %}
+{% block start %}
+
+<div class="content-section col-md-8 col-md-offset-2">
+  <center>
+    <form style="margin: 4%; padding:10%; border-radius:1%;" action="/login/" method="post">
+      <h2>Login</h2>
+      {% csrf_token %}
+      <div>
+        <input class="form-control" type="text" placeholder="Email" name="email">
+      </div>
+      <br>
+      <div data-validate="Enter password">
+        <input class="form-control" type="password" placeholder="Password" name="password">
+      </div>
+      <br>
+      <div>
+        <div>
+          <div></div>
+          <button class="btn btn-primary">
+            Login
+          </button>
+        </div>
+      </div>
+    </form>
+  </center>
+</div>
+{% endblock start %}
